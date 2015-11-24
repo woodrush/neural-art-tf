@@ -1,6 +1,13 @@
-# "Neural Art" in tensorflow
+# "Neural Art" in TensorFlow
 
-An implementation of ["A neural algorithm of Artistic style"](http://arxiv.org/abs/1508.06576), demonstrating the use of various Caffe cnn models (VGG and illustration2vec) in tensorflow.
+An implementation of ["A neural algorithm of Artistic style"](http://arxiv.org/abs/1508.06576) in TensorFlow, for
+
+- Introductory, hackable demos for TensorFlow, and
+- Demonstrating the use of importing various Caffe cnn models (VGG and illustration2vec) in TF.
+
+In this work, I put effort in putting the code simple as possible, for being a good introductory code to TF. For this reason, I also implemented very basic uses of TensorBoard (the visualizer). I also aimed on demonstrating the use of importing various Caffe models from *.caffemodel files into TensorFlow, especially models that seemed not to be imported by anybody yet in TF (as far as I know). Based on [https://github.com/ethereon/caffe-tensorflow](https://github.com/ethereon/caffe-tensorflow), I modified the importer so that it can import illustration2vec (http://illustration2vec.net/), which is another CNN available as a Caffe model. Using different CNNs yields different results, which reflects the characteristics of the model.
+
+In the Neural Art problem setting, the weights of the CNN are fixed, and the input image into the CNN is the only "trainable" variable, making the code easy to understand (the optimized/trained image is the output image). I hope this example serves as a good introduction to TensorFlow as well as for entertainment purposes.
 
 <img src="vgg_result.png">
 
@@ -18,7 +25,7 @@ First, download either the VGG model or the illustration2vec model (\*.caffemode
 - VGG: [https://gist.github.com/ksimonyan/211839e770f7b538e2d8#file-readme-md](https://gist.github.com/ksimonyan/211839e770f7b538e2d8#file-readme-md)
 - illustration2vec: [http://illustration2vec.net/](http://illustration2vec.net/)   (pre-trained model for tag prediction, version 2.0)
 
-Then, convert the model to a binary format recognizable to tensorflow:
+Then, convert the model to a binary format recognizable to TensorFlow:
 
 	python ./kaffe/kaffe.py [path.prototxt] [path.caffemodel] [output-path]
 
@@ -54,7 +61,7 @@ You can view the progress on tensorboard by running
 - L. A. Gatys, et al., A neural algorithm of Artistic style, 2015, [http://arxiv.org/abs/1508.06576](http://arxiv.org/abs/1508.06576)
 - [https://github.com/ethereon/caffe-tensorflow](https://github.com/ethereon/caffe-tensorflow) : The Caffe model converter
 - [https://github.com/mattya/chainer-gogh](https://github.com/mattya/chainer-gogh) : Implementation in Chainer. Referenced the argument parser
-- [https://github.com/anishathalye/neural-style](https://github.com/anishathalye/neural-style) : Another implementation in tensorflow. Referenced the learning rates
+- [https://github.com/anishathalye/neural-style](https://github.com/anishathalye/neural-style) : Another implementation in TensorFlow. Referenced the learning rates
 
 
 - `./kaffe/caffepb.py` was referenced from [https://github.com/ethereon/caffe-tensorflow](https://github.com/ethereon/caffe-tensorflow).
