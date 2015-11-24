@@ -4,11 +4,11 @@ An implementation of ["A neural algorithm of Artistic style"](http://arxiv.org/a
 
 <img src="vgg_result.png">
 
-(VGG, default settings, (TODO) iterations)
+(VGG, default settings, 70 iterations)
 
 <img src="i2v_result.png">
 
-(illustration2vec, width=500, beta=10000)
+(illustration2vec, width=500, beta=10000, 100 iterations)
 
 ##Usage
 
