@@ -54,8 +54,9 @@ def parseArgs():
                         help='alpha (content weight)')
     parser.add_argument('--beta', '-b', default=200.0, type=float,
                         help='beta (style weight)')
+    parser.add_argument('--device', default="/cpu:0")
     args = parser.parse_args()
-    return args.content, args.style, args.modelpath, args.model, args.width, args.alpha, args.beta, args.iters
+    return args.content, args.style, args.modelpath, args.model, args.width, args.alpha, args.beta, args.iters, args.device
 
 def getModel(image, params_path, model):
     if model == 'vgg':

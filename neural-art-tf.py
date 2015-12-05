@@ -4,17 +4,20 @@ from models import VGG16, I2V
 from utils import read_image, save_image, parseArgs, getModel, add_mean
 import argparse
 
-content_image_path, style_image_path, params_path, modeltype, width, alpha, beta, num_iters = parseArgs()
+import time
+content_image_path, style_image_path, params_path, modeltype, width, alpha, beta, num_iters, device = parseArgs()
 
 # The actual calculation
 print "Read images..."
 content_image = read_image(content_image_path, width)
-style_image   = read_image(style_image_path)
-with tf.Graph().as_default(), tf.Session() as sess:
+style_image   = read_image(style_image_path, width)
+g = tf.Graph()
+with g.device(device), g.as_default(), tf.Session(graph=g, config=tf.ConfigProto(allow_soft_placement=True)) as sess:
     print "Load content values..."
     image = tf.constant(content_image)
     model = getModel(image, params_path, modeltype)
     content_image_y_val = [sess.run(y_l) for y_l in model.y()]  # sess.run(y_l) is a constant numpy array
+
 
     print "Load style values..."
     image = tf.constant(style_image)
@@ -79,3 +82,4 @@ with tf.Graph().as_default(), tf.Session() as sess:
             summary_writer.add_summary(summary_str, i)
         print "Iter:", i
         sess.run(train_step)
+
