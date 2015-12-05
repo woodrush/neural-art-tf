@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.misc
+import os
 from datetime import datetime as dt
 import argparse
 from models import VGG16, I2V
@@ -27,13 +28,15 @@ def read_image(path, w=None):
     img = sub_mean(img)
     return img
 
-def save_image(im, it):
+def save_image(im, iteration, out_dir):
     img = im.copy()
     # Add the image mean
     img = add_mean(img)
     img = np.clip(img[0, ...],0,255).astype(np.uint8)
-    tstr = dt.now().strftime('%Y_%m_%d_%H_%M_%S')
-    scipy.misc.imsave("./im_na_%s_%05d.png"%(tstr,it), img)
+    nowtime = dt.now().strftime('%Y_%m_%d_%H_%M_%S')
+    if not os.path.exists(out_dir):
+        os.mkdir(out_dir)    
+    scipy.misc.imsave("{}/neural_art_{}_iteration{}.png".format(out_dir, nowtime, iteration), img)
    
 def parseArgs():
     parser = argparse.ArgumentParser(
@@ -55,8 +58,9 @@ def parseArgs():
     parser.add_argument('--beta', '-b', default=200.0, type=float,
                         help='beta (style weight)')
     parser.add_argument('--device', default="/cpu:0")
+    parser.add_argument('--out_dir', default="output")
     args = parser.parse_args()
-    return args.content, args.style, args.modelpath, args.model, args.width, args.alpha, args.beta, args.iters, args.device
+    return args.content, args.style, args.modelpath, args.model, args.width, args.alpha, args.beta, args.iters, args.device, args
 
 def getModel(image, params_path, model):
     if model == 'vgg':

@@ -5,7 +5,7 @@ from utils import read_image, save_image, parseArgs, getModel, add_mean
 import argparse
 
 import time
-content_image_path, style_image_path, params_path, modeltype, width, alpha, beta, num_iters, device = parseArgs()
+content_image_path, style_image_path, params_path, modeltype, width, alpha, beta, num_iters, device, args = parseArgs()
 
 # The actual calculation
 print "Read images..."
@@ -17,7 +17,6 @@ with g.device(device), g.as_default(), tf.Session(graph=g, config=tf.ConfigProto
     image = tf.constant(content_image)
     model = getModel(image, params_path, modeltype)
     content_image_y_val = [sess.run(y_l) for y_l in model.y()]  # sess.run(y_l) is a constant numpy array
-
 
     print "Load style values..."
     image = tf.constant(style_image)
@@ -74,7 +73,7 @@ with g.device(device), g.as_default(), tf.Session(graph=g, config=tf.ConfigProto
     for i in range(num_iters):
         if i % 10 == 0:
             gen_image_val = sess.run(gen_image)
-            save_image(gen_image_val, i)
+            save_image(gen_image_val, i, args.out_dir)
             print "L_content, L_style:", sess.run(L_content), sess.run(L_style)
             # Increment summary
             sess.run(tf.assign(gen_image_addmean, add_mean(gen_image_val)))
